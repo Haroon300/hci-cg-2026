@@ -3,7 +3,7 @@
 <head>
   <!-- Character encoding for proper text rendering -->
   <meta charset="UTF-8">
-
+  <link rel="stylesheet" href="style.css">
   <!-- Page title shown in browser tab and screen readers -->
   <title>Don Norman – Home</title>
 </head>
@@ -16,31 +16,32 @@
   </header>
 
   <!-- Primary navigation landmark for keyboard and screen reader users -->
-  <nav aria-label="Primary navigation">
-    <ul>
-      <!-- Current page is indicated using aria-current -->
-      <li>
-        <a href="index.html" aria-current="page">Home</a>
-      </li>
+  <nav class="site-nav" aria-label="Primary navigation">
+    <ul class="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="analysis.html">Interaction Analysis</a></li>
+        <li><a href="norman2klm.html">Norman–GOMS–KLM</a></li>
+        <li><a href="assignment01.html">Lab 01 Rules</a></li>
 
-      <!-- Navigation links to other site sections -->
-      <li><a href="cv.html">CV</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="analysis.html">Interaction Analysis</a></li>
-      <li><a href="norman2klm.html">Norman–GOMS–KLM</a></li>
-      <li><a href="assignment01.html">Lab 01 Rules</a></li>
-
+        <li class="dropdown">
+            <button class="dropbtn" aria-haspopup="true">Weeks</button>
+            <ul class="dropdown-menu">
+                <li><a href="./pages/week1.html" aria-current="page">Week 1</a></li>
+            </ul>
+        </li>
     </ul>
   </nav>
 
   <!-- Main content landmark: unique content of this page -->
-  <main>
+  <main class="container">
     <section>
       <!-- Section heading establishes content hierarchy -->
-      <h2>Biography</h2>
+      <h1>Biography</h1>
 
       <!-- Informative image with alternative text for accessibility -->
-      <img src="norman.jpg" alt="Portrait of Don Norman">
+      <img src="norman.jpg" alt="Portrait of Don Norman" class="img-responsive">
 
       <p>
         Don Norman is a pioneer in the field of Human–Computer Interaction,

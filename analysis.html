@@ -6,6 +6,7 @@
 
   <!-- Page title shown in browser tab and announced by screen readers -->
   <title>Interaction Analysis – Norman vs. GOMS</title>
+  <link rel="stylesheet" href="style.css">
 
   <style>
     /* Minimal styling (Lab 01 allowed): highlight rows where Norman and GOMS directly correspond */
@@ -22,17 +23,21 @@
     <p>Norman (1988) vs. GOMS (1983): Enable Wi-Fi (iPhone 13 / Samsung S25)</p>
   </header>
 
-  <!-- Primary navigation: consistent across all site pages -->
-  <nav aria-label="Primary navigation">
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="cv.html">CV</a></li>
-      <li><a href="contact.html">Contact</a></li>
+  <nav class="site-nav" aria-label="Primary navigation">
+    <ul class="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cv.html">CV</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="analysis.html">Interaction Analysis</a></li>
+        <li><a href="norman2klm.html">Norman–GOMS–KLM</a></li>
+        <li><a href="assignment01.html">Lab 01 Rules</a></li>
 
-      <!-- Current page indicated for screen reader orientation -->
-      <li><a href="analysis.html" aria-current="page">Interaction Analysis</a></li>
-      <li><a href="norman2klm.html">Norman–GOMS–KLM</a></li>
-      <li><a href="assignment01.html">Lab 01 Rules</a></li>
+        <li class="dropdown">
+            <button class="dropbtn" aria-haspopup="true">Weeks</button>
+            <ul class="dropdown-menu">
+                <li><a href="./pages/week1.html" aria-current="page">Week 1</a></li>
+            </ul>
+        </li>
     </ul>
   </nav>
 
@@ -43,7 +48,7 @@
       <h2>Norman vs. GOMS Comparison Table</h2>
 
       <!-- Data table: caption + thead/tbody support accessibility -->
-      <table border="1">
+      <table>
         <caption>
           Comparison of Norman’s stages and GOMS concepts using the Wi-Fi toggle example
         </caption>
