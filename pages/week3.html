@@ -1,88 +1,631 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Week 3 - KLM</title>
-<style>
-body { font-family: Arial; font-size: 16px; color: black; background-color: white; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>human computer interaction / week 3</title>
+    <style>
+        /* base style - clean and simple */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.5;
+            color: #2c2c2c;
+            background: #f5f3f0;
+            padding: 1.5rem;
+        }
+
+        /* main container */
+        .paper {
+            max-width: 880px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03), 0 2px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eae7e3;
+        }
+
+        /* header */
+        .top {
+            background: #1f1f1f;
+            color: #f0f0f0;
+            padding: 2.2rem 2rem;
+            border-bottom: 3px solid #e67e22;
+        }
+
+        .top h1 {
+            font-size: 2.1rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        /* navigation */
+        .nav {
+            background: #ffffff;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #e2dbd2;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .nav ul li a {
+            display: inline-block;
+            padding: 0.45rem 1rem;
+            text-decoration: none;
+            color: #4a4a4a;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            background: #f2eeea;
+            border: 1px solid #dbd3cb;
+            transition: all 0.1s ease;
+        }
+
+        .nav ul li a:hover {
+            background: #e5dfd9;
+            border-color: #b9ada1;
+            color: #1f1f1f;
+        }
+
+        .nav ul li a[aria-current="page"] {
+            background: #2b2b2b;
+            color: white;
+            border-color: #2b2b2b;
+        }
+
+        /* main content */
+        .content {
+            padding: 2rem 2rem 1.5rem 2rem;
+        }
+
+        /* sections */
+        .chapter {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.8rem;
+            border-bottom: 1px solid #e0d9d0;
+        }
+
+        .chapter:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0.5rem;
+        }
+
+        /* headings */
+        .chapter h2 {
+            font-size: 1.7rem;
+            font-weight: 450;
+            color: #1e1e1e;
+            margin-bottom: 1.2rem;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            border-left: 4px solid #e67e22;
+            padding-left: 1rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 550;
+            color: #2b2b2b;
+            margin: 1.2rem 0 0.6rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #3a3a3a;
+        }
+
+        /* lists */
+        ul, ol {
+            margin: 1rem 0 1.5rem 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: #3a3a3a;
+        }
+
+        /* CSS Icons for KLM operators */
+        .icon {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            margin-right: 10px;
+            position: relative;
+            vertical-align: middle;
+            background: #f0e9e2;
+            border-radius: 6px;
+            text-align: center;
+            line-height: 28px;
+            font-weight: 600;
+            color: #e67e22;
+            font-size: 14px;
+        }
+
+        /* K - Keystroke icon (keyboard key) */
+        .icon-k {
+            background: #f0e9e2;
+        }
+        .icon-k::before {
+            content: "K";
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* P - Pointing icon (mouse cursor) */
+        .icon-p::before {
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 14px;
+            background: #e67e22;
+            clip-path: polygon(0% 0%, 100% 0%, 70% 30%, 100% 100%, 70% 80%, 30% 80%, 0% 100%);
+            top: 7px;
+            left: 9px;
+            transform: rotate(-10deg);
+        }
+
+        /* H - Homing icon (hand movement) - using pure CSS */
+        .icon-h::before {
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #e67e22;
+            border-radius: 50% 50% 30% 30%;
+            top: 4px;
+            left: 6px;
+        }
+        .icon-h::after {
+            content: "";
+            position: absolute;
+            width: 4px;
+            height: 8px;
+            background: #e67e22;
+            top: 12px;
+            left: 10px;
+            border-radius: 2px;
+            box-shadow: -4px 0 0 #e67e22, 4px 0 0 #e67e22;
+        }
+
+        /* M - Mental icon (brain/thought) */
+        .icon-m::before {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #e67e22;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            top: 5px;
+            left: 6px;
+        }
+        .icon-m::after {
+            content: "";
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #e67e22;
+            border-radius: 50%;
+            top: 10px;
+            left: 10px;
+            box-shadow: -4px 0 0 #e67e22;
+        }
+
+        /* R - Response icon (computer/clock) */
+        .icon-r::before {
+            content: "";
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #e67e22;
+            border-radius: 50%;
+            top: 5px;
+            left: 5px;
+        }
+        .icon-r::after {
+            content: "";
+            position: absolute;
+            width: 2px;
+            height: 6px;
+            background: #e67e22;
+            top: 8px;
+            left: 12px;
+            transform: rotate(30deg);
+        }
+
+        /* operators grid */
+        .operators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .operator-card {
+            background: #faf7f4;
+            border: 1px solid #ece3db;
+            border-radius: 10px;
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .operator-info h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e1e1e;
+            margin-bottom: 0.2rem;
+        }
+
+        .operator-info p {
+            font-size: 0.9rem;
+            color: #5a5a5a;
+            margin-bottom: 0;
+        }
+
+        /* example box */
+        .example-box {
+            background: #f4f0eb;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #e0d7cf;
+            margin: 1.5rem 0;
+        }
+
+        .example-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 8px;
+            border-left: 3px solid #e67e22;
+        }
+
+        .step .step-icon {
+            width: 32px;
+            height: 32px;
+            background: #f0e9e2;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #e67e22;
+        }
+
+        .step .step-text {
+            flex: 1;
+        }
+
+        .step .step-time {
+            background: #e67e22;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* assumptions grid - without emoji */
+        .assumptions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .assumption-card {
+            background: #faf7f4;
+            border: 1px solid #ece3db;
+            border-radius: 10px;
+            padding: 1.5rem 1.2rem;
+            text-align: center;
+        }
+
+        /* CSS icons for assumptions */
+        .assumption-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 1rem;
+            position: relative;
+        }
+
+        /* expert user icon */
+        .icon-expert::before {
+            content: "";
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #e67e22;
+            border-radius: 50%;
+            top: 0;
+            left: 9px;
+        }
+        .icon-expert::after {
+            content: "✓";
+            position: absolute;
+            color: #e67e22;
+            font-size: 20px;
+            font-weight: bold;
+            top: 5px;
+            left: 20px;
+        }
+
+        /* no problem solving icon */
+        .icon-noproblem::before {
+            content: "?";
+            position: absolute;
+            color: #e67e22;
+            font-size: 28px;
+            font-weight: bold;
+            top: 0;
+            left: 15px;
+        }
+        .icon-noproblem::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: #e67e22;
+            top: 20px;
+            left: 14px;
+            transform: rotate(45deg);
+        }
+
+        /* constant response icon */
+        .icon-constant::before {
+            content: "";
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #e67e22;
+            border-radius: 50%;
+            top: 0;
+            left: 12px;
+        }
+        .icon-constant::after {
+            content: "→";
+            position: absolute;
+            color: #e67e22;
+            font-size: 18px;
+            top: 2px;
+            left: 20px;
+        }
+
+        .assumption-card p {
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+
+        .assumption-card strong {
+            display: block;
+            margin-bottom: 0.3rem;
+            color: #1e1e1e;
+            font-size: 1rem;
+        }
+
+        /* note box */
+        .note-card {
+            background: #faf7f4;
+            border: 1px solid #ece3db;
+            border-radius: 10px;
+            padding: 1.3rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #e67e22;
+        }
+
+        /* back link */
+        .back-link {
+            display: inline-block;
+            margin: 2rem 0 0.5rem 0;
+            background: #ece5de;
+            color: #3a3a3a;
+            padding: 0.6rem 1.6rem;
+            text-decoration: none;
+            font-size: 0.95rem;
+            border: 1px solid #cdc3b8;
+            border-radius: 25px;
+            transition: all 0.1s ease;
+        }
+
+        .back-link:hover {
+            background: #e0d7ce;
+            border-color: #b1a394;
+        }
+
+        /* footer */
+        .foot {
+            background: #ece6e0;
+            padding: 1.3rem 2rem;
+            text-align: center;
+            border-top: 1px solid #dad1c7;
+            color: #4f4f4f;
+            font-size: 0.9rem;
+        }
+
+        .foot p {
+            margin-bottom: 0;
+        }
+
+        /* mobile */
+        @media (max-width: 600px) {
+            body { padding: 0.8rem; }
+            .top h1 { font-size: 1.8rem; }
+            .nav ul { flex-direction: column; }
+            .nav ul li a { text-align: center; }
+            .chapter h2 { font-size: 1.5rem; }
+            .content { padding: 1.5rem; }
+        }
+    </style>
 </head>
 <body>
+    <div class="paper">
+        <div class="top">
+            <h1>Week 3 · Keystroke Level Model (KLM)</h1>
+        </div>
 
-<header>
-<h1>Week 3: Keystroke Level Model (KLM)</h1>
-</header>
+        <div class="nav">
+            <ul>
+                <li><a href="week1.html">week 1</a></li>
+                <li><a href="week2.html">week 2</a></li>
+                <li><a href="week3.html" aria-current="page">week 3</a></li>
+                <li><a href="week4.html">week 4</a></li>
+                <li><a href="errors.html">html errors</a></li>
+                <li><a href="references.html">references</a></li>
+            </ul>
+        </div>
 
-<nav aria-label="Primary navigation">
-<ul>
-<li><a href="week1.html">Week 1</a></li>
-<li><a href="week2.html">Week 2</a></li>
-<li><a href="week3.html" aria-current="page">Week 3</a></li>
-<li><a href="week4.html">Week 4</a></li>
-<li><a href="errors.html">HTML Errors</a></li>
-<li><a href="references.html">References</a></li>
-</ul>
-</nav>
+        <div class="content">
+            <div class="chapter">
+                <h2>Definition</h2>
+                <p>
+                    <strong>KLM (Keystroke Level Model)</strong> ek predictive model hai jo estimate karta hai ke ek expert user kitne time mein task complete karega. Ye low-level actions count karta hai jaise keystrokes aur mouse movements.
+                </p>
+            </div>
 
-<main>
+            <div class="chapter">
+                <h2>Purpose</h2>
+                <p>
+                    KLM ka purpose hai different interface designs ko compare karna aur predict karna ke kaunsa design faster task execution allow karta hai. Designers isse use karke inefficient steps remove karte hain.
+                </p>
+            </div>
 
-<section>
-<h2>Definition</h2>
-<p>
-The Keystroke Level Model (KLM) is a predictive model that estimates the time required for an expert user to complete a task by counting low-level actions such as keystrokes and mouse movements.
-</p>
-</section>
+            <div class="chapter">
+                <h2>KLM Operators</h2>
+                <div class="operators-grid">
+                    <div class="operator-card">
+                        <span class="icon icon-k"></span>
+                        <div class="operator-info">
+                            <h4>K · Keystroke</h4>
+                            <p>keyboard button press (0.2–0.5 sec)</p>
+                        </div>
+                    </div>
+                    <div class="operator-card">
+                        <span class="icon icon-p"></span>
+                        <div class="operator-info">
+                            <h4>P · Pointing</h4>
+                            <p>mouse movement to target (1.1 sec)</p>
+                        </div>
+                    </div>
+                    <div class="operator-card">
+                        <span class="icon icon-h"></span>
+                        <div class="operator-info">
+                            <h4>H · Homing</h4>
+                            <p>hand movement between devices (0.4 sec)</p>
+                        </div>
+                    </div>
+                    <div class="operator-card">
+                        <span class="icon icon-m"></span>
+                        <div class="operator-info">
+                            <h4>M · Mental prep</h4>
+                            <p>thinking/decision time (1.2 sec)</p>
+                        </div>
+                    </div>
+                    <div class="operator-card">
+                        <span class="icon icon-r"></span>
+                        <div class="operator-info">
+                            <h4>R · Response</h4>
+                            <p>system reaction time (variable)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-<section>
-<h2>Purpose of KLM</h2>
-<p>
-KLM helps designers compare different interface designs by predicting which one allows faster task execution.
-</p>
-</section>
+            <div class="chapter">
+                <h2>Example: Open a File</h2>
+                <div class="example-box">
+                    <p style="margin-bottom: 0.5rem;"><strong>Task:</strong> Open a file from desktop</p>
+                    <div class="example-steps">
+                        <div class="step">
+                            <div class="step-icon">M</div>
+                            <div class="step-text">Decide to open file</div>
+                            <div class="step-time">1.2s</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">P</div>
+                            <div class="step-text">Move mouse to file</div>
+                            <div class="step-time">1.1s</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">K</div>
+                            <div class="step-text">Click file to select</div>
+                            <div class="step-time">0.2s</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">K</div>
+                            <div class="step-text">Press Enter (or double-click)</div>
+                            <div class="step-time">0.2s</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">R</div>
+                            <div class="step-text">System opens file</div>
+                            <div class="step-time">varies</div>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1rem; font-style: italic; color: #5a5a5a;">Total time (without R): approx 2.7 seconds</p>
+                </div>
+            </div>
 
-<section>
-<h2>KLM Operators</h2>
-<ul>
-<li>K – Keystroke</li>
-<li>P – Pointing</li>
-<li>H – Homing</li>
-<li>M – Mental preparation</li>
-<li>R – System response</li>
-</ul>
-</section>
+            <div class="chapter">
+                <h2>Assumptions</h2>
+                <div class="assumptions-grid">
+                    <div class="assumption-card">
+                        <div class="assumption-icon icon-expert"></div>
+                        <p><strong>Expert user</strong> error-free, no learning curve</p>
+                    </div>
+                    <div class="assumption-card">
+                        <div class="assumption-icon icon-noproblem"></div>
+                        <p><strong>No problem solving</strong> routine tasks only</p>
+                    </div>
+                    <div class="assumption-card">
+                        <div class="assumption-icon icon-constant"></div>
+                        <p><strong>Constant response</strong> system time is predictable</p>
+                    </div>
+                </div>
+            </div>
 
-<section>
-<h2>Example Task</h2>
-<p>Task: Open a file</p>
-<ul>
-<li>M: Decide to open file</li>
-<li>P: Move mouse to file</li>
-<li>K: Click file</li>
-<li>R: System opens file</li>
-</ul>
-</section>
+            <div class="chapter">
+                <h2>Use in Interface Design</h2>
+                <div class="note-card">
+                    <p style="margin-bottom: 0;">
+                        Designers use KLM to <strong>optimize interaction</strong> — removing unnecessary steps, 
+                        reducing hand movements, and placing controls strategically. Common in:
+                    </p>
+                    <ul style="margin-top: 0.8rem; margin-bottom: 0;">
+                        <li>Menu layout optimization</li>
+                        <li>Keyboard shortcut design</li>
+                        <li>Form filling efficiency</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <a href="../index.html" class="back-link">← back to home</a>
+        </div>
 
-<section>
-<h2>Assumptions</h2>
-<ul>
-<li>User is expert and error-free</li>
-<li>No learning or problem solving is included</li>
-<li>System response time is constant</li>
-</ul>
-</section>
-
-<section>
-<h2>Use in Interface Design</h2>
-<p>
-KLM is used to optimize interaction by reducing unnecessary actions and improving efficiency.
-</p>
-</section>
-<a href="../index.html">back to Home</a>
-</main>
-
-<footer>
-<p>Reference: Dix et al., Human-Computer Interaction, Chapter 12</p>
-</footer>
-
+        <div class="foot">
+            <p>source: Dix et al., Human-Computer Interaction, ch.12</p>
+        </div>
+    </div>
 </body>
 </html>
