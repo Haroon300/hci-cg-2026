@@ -1,88 +1,514 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Week 2 - GOMS Model</title>
-<style>
-body { font-family: Arial; font-size: 16px; color: black; background-color: white; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>human computer interaction / week 2</title>
+    <style>
+        /* base style - clean and simple */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.5;
+            color: #2c2c2c;
+            background: #f5f3f0;
+            padding: 1.5rem;
+        }
+
+        /* main container */
+        .paper {
+            max-width: 880px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03), 0 2px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eae7e3;
+        }
+
+        /* header */
+        .top {
+            background: #1f1f1f;
+            color: #f0f0f0;
+            padding: 2.2rem 2rem;
+            border-bottom: 3px solid #e67e22;
+        }
+
+        .top h1 {
+            font-size: 2.1rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        /* navigation */
+        .nav {
+            background: #ffffff;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #e2dbd2;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .nav ul li a {
+            display: inline-block;
+            padding: 0.45rem 1rem;
+            text-decoration: none;
+            color: #4a4a4a;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            background: #f2eeea;
+            border: 1px solid #dbd3cb;
+            transition: all 0.1s ease;
+        }
+
+        .nav ul li a:hover {
+            background: #e5dfd9;
+            border-color: #b9ada1;
+            color: #1f1f1f;
+        }
+
+        .nav ul li a[aria-current="page"] {
+            background: #2b2b2b;
+            color: white;
+            border-color: #2b2b2b;
+        }
+
+        /* main content */
+        .content {
+            padding: 2rem 2rem 1.5rem 2rem;
+        }
+
+        /* sections */
+        .chapter {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.8rem;
+            border-bottom: 1px solid #e0d9d0;
+        }
+
+        .chapter:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0.5rem;
+        }
+
+        /* headings */
+        .chapter h2 {
+            font-size: 1.7rem;
+            font-weight: 450;
+            color: #1e1e1e;
+            margin-bottom: 1.2rem;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            border-left: 4px solid #e67e22;
+            padding-left: 1rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 550;
+            color: #2b2b2b;
+            margin: 1.2rem 0 0.6rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #3a3a3a;
+        }
+
+        /* lists */
+        ul, ol {
+            margin: 1rem 0 1.5rem 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: #3a3a3a;
+        }
+
+        /* CSS Icons - updated operator icon */
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+            position: relative;
+            vertical-align: middle;
+        }
+
+        /* goal icon - target */
+        .icon-goal::before {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #e67e22;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+        }
+        .icon-goal::after {
+            content: "";
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #e67e22;
+            border-radius: 50%;
+            top: 7px;
+            left: 7px;
+        }
+
+        /* operator icon - mouse click (updated) */
+        .icon-operator::before {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 22px;
+            border: 2px solid #e67e22;
+            border-radius: 8px 8px 8px 8px;
+            top: 0;
+            left: 2px;
+            background: #faf7f4;
+        }
+        .icon-operator::after {
+            content: "";
+            position: absolute;
+            width: 4px;
+            height: 6px;
+            background: #e67e22;
+            border-radius: 2px;
+            top: 6px;
+            left: 8px;
+            box-shadow: 0 8px 0 #e67e22;
+        }
+
+        /* method icon - list/flow */
+        .icon-method::before {
+            content: "→";
+            position: absolute;
+            font-size: 18px;
+            color: #e67e22;
+            top: 0;
+            left: 0;
+        }
+        .icon-method::after {
+            content: "⋯";
+            position: absolute;
+            font-size: 18px;
+            color: #e67e22;
+            top: 0;
+            left: 12px;
+        }
+
+        /* selection rules icon - fork/decision */
+        .icon-rule::before {
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-top: 2px solid #e67e22;
+            border-right: 2px solid #e67e22;
+            transform: rotate(45deg);
+            top: 4px;
+            left: 2px;
+        }
+        .icon-rule::after {
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-bottom: 2px solid #e67e22;
+            border-left: 2px solid #e67e22;
+            transform: rotate(45deg);
+            top: 4px;
+            left: 10px;
+        }
+
+        /* component cards */
+        .components {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .component-card {
+            background: #faf7f4;
+            border: 1px solid #ece3db;
+            border-top: 3px solid #e67e22;
+            border-radius: 8px;
+            padding: 1.2rem;
+        }
+
+        .component-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e1e1e;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .component-card p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+            color: #4a4a4a;
+        }
+
+        /* example box */
+        .example-box {
+            background: #f4f0eb;
+            padding: 1.2rem 1.2rem 1.2rem 2rem;
+            border-radius: 10px;
+            border: 1px solid #e0d7cf;
+            margin: 1rem 0;
+        }
+
+        .example-box li {
+            margin-bottom: 0.3rem;
+        }
+
+        .example-box li strong {
+            font-weight: 550;
+            color: #1e1e1e;
+        }
+
+        /* note grid */
+        .note-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .note-card {
+            background: #faf7f4;
+            border: 1px solid #ece3db;
+            border-radius: 10px;
+            padding: 1.3rem;
+        }
+
+        .note-card.advantages {
+            border-left: 4px solid #2e7d5e;
+        }
+
+        .note-card.limitations {
+            border-left: 4px solid #bf4d3e;
+        }
+
+        .note-card h3 {
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .icon-check {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 6px;
+            position: relative;
+            vertical-align: middle;
+        }
+        .icon-check::before {
+            content: "✓";
+            color: #2e7d5e;
+            font-size: 18px;
+            font-weight: bold;
+            position: absolute;
+            top: -2px;
+            left: 2px;
+        }
+
+        .icon-warning {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 6px;
+            position: relative;
+            vertical-align: middle;
+        }
+        .icon-warning::before {
+            content: "!";
+            color: #bf4d3e;
+            font-size: 18px;
+            font-weight: bold;
+            position: absolute;
+            top: -2px;
+            left: 6px;
+        }
+
+        .note-card ul {
+            margin: 0.5rem 0 0 1.2rem;
+        }
+
+        .note-card li {
+            margin-bottom: 0.4rem;
+        }
+
+        /* back link */
+        .back-link {
+            display: inline-block;
+            margin: 2rem 0 0.5rem 0;
+            background: #ece5de;
+            color: #3a3a3a;
+            padding: 0.6rem 1.6rem;
+            text-decoration: none;
+            font-size: 0.95rem;
+            border: 1px solid #cdc3b8;
+            border-radius: 25px;
+            transition: all 0.1s ease;
+        }
+
+        .back-link:hover {
+            background: #e0d7ce;
+            border-color: #b1a394;
+        }
+
+        /* footer */
+        .foot {
+            background: #ece6e0;
+            padding: 1.3rem 2rem;
+            text-align: center;
+            border-top: 1px solid #dad1c7;
+            color: #4f4f4f;
+            font-size: 0.9rem;
+        }
+
+        .foot p {
+            margin-bottom: 0;
+        }
+
+        /* mobile */
+        @media (max-width: 600px) {
+            body { padding: 0.8rem; }
+            .top h1 { font-size: 1.8rem; }
+            .nav ul { flex-direction: column; }
+            .nav ul li a { text-align: center; }
+            .chapter h2 { font-size: 1.5rem; }
+            .content { padding: 1.5rem; }
+            .note-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
+    <div class="paper">
+        <div class="top">
+            <h1>Week 2 · GOMS Model</h1>
+        </div>
 
-<header>
-<h1>Week 2: GOMS Model</h1>
-</header>
+        <div class="nav">
+            <ul>
+                <li><a href="week1.html">week 1</a></li>
+                <li><a href="week2.html" aria-current="page">week 2</a></li>
+                <li><a href="week3.html">week 3</a></li>
+                <li><a href="week4.html">week 4</a></li>
+                <li><a href="errors.html">html errors</a></li>
+                <li><a href="references.html">references</a></li>
+            </ul>
+        </div>
 
-<nav aria-label="Primary navigation">
-<ul>
-<li><a href="week1.html">Week 1</a></li>
-<li><a href="week2.html" aria-current="page">Week 2</a></li>
-<li><a href="week3.html">Week 3</a></li>
-<li><a href="week4.html">Week 4</a></li>
-<li><a href="errors.html">HTML Errors</a></li>
-<li><a href="references.html">References</a></li>
-</ul>
-</nav>
+        <div class="content">
+            <div class="chapter">
+                <h2>Definition</h2>
+                <p>
+                    GOMS stands for <strong>Goals, Operators, Methods, and Selection Rules</strong>. It's a task analysis model that breaks down how users perform tasks into structured, predictable steps. Think of it as a recipe book for user actions.
+                </p>
+            </div>
 
-<main>
+            <div class="chapter">
+                <h2>Purpose</h2>
+                <p>
+                    GOMS helps predict how long tasks will take and how efficient an interface is. Designers use it to compare different designs and find the fastest way for users to complete tasks.
+                </p>
+            </div>
 
-<section>
-<h2>Definition</h2>
-<p>
-GOMS stands for Goals, Operators, Methods, and Selection Rules. It is a task analysis model that describes how users perform tasks by breaking them into structured steps.
-</p>
-</section>
+            <div class="chapter">
+                <h2>Four Components</h2>
+                <div class="components">
+                    <div class="component-card">
+                        <h4><span class="icon icon-goal"></span> Goals</h4>
+                        <p>What the user wants to achieve — like "send an email" or "save a file"</p>
+                    </div>
+                    <div class="component-card">
+                        <h4><span class="icon icon-operator"></span> Operators</h4>
+                        <p>Basic actions — clicking a mouse, pressing a key, moving hand to keyboard</p>
+                    </div>
+                    <div class="component-card">
+                        <h4><span class="icon icon-method"></span> Methods</h4>
+                        <p>Step-by-step sequences to reach a goal — e.g., File → Save As → type name</p>
+                    </div>
+                    <div class="component-card">
+                        <h4><span class="icon icon-rule"></span> Selection Rules</h4>
+                        <p>Rules for choosing between methods — "if file is new, use Save As; if existing, use Save"</p>
+                    </div>
+                </div>
+            </div>
 
-<section>
-<h2>Purpose of GOMS</h2>
-<p>
-The purpose of GOMS is to predict user performance and to analyze the efficiency of task procedures in an interface.
-</p>
-</section>
+            <div class="chapter">
+                <h2>Example: Sending an Email</h2>
+                <p><strong>Goal:</strong> Send an email to a friend</p>
+                <ul class="example-box">
+                    <li><strong>Method:</strong></li>
+                    <li>1. Open email app (click icon)</li>
+                    <li>2. Click "Compose" button</li>
+                    <li>3. Type friend's email address</li>
+                    <li>4. Type subject line</li>
+                    <li>5. Type message</li>
+                    <li>6. Click "Send" button</li>
+                </ul>
+                <p style="margin-top: 0.5rem; font-style: italic; color: #5a5a5a;">Each of these steps is an operator. Together they form a method.</p>
+            </div>
 
-<section>
-<h2>Components of GOMS</h2>
-<ul>
-<li><strong>Goals:</strong> What the user wants to achieve</li>
-<li><strong>Operators:</strong> Basic actions performed by the user</li>
-<li><strong>Methods:</strong> Sequences of operators to achieve goals</li>
-<li><strong>Selection Rules:</strong> Rules for choosing between alternative methods</li>
-</ul>
-</section>
+            <div class="chapter">
+                <h2>GOMS in Practice</h2>
+                <div class="note-grid">
+                    <div class="note-card advantages">
+                        <h3><span class="icon-check"></span> Advantages</h3>
+                        <ul>
+                            <li>Clear structure for task analysis</li>
+                            <li>Helps spot unnecessary steps</li>
+                            <li>Predicts expert performance time</li>
+                            <li>Useful for comparing designs</li>
+                        </ul>
+                    </div>
+                    <div class="note-card limitations">
+                        <h3><span class="icon-warning"></span> Limitations</h3>
+                        <ul>
+                            <li>Assumes users are experts</li>
+                            <li>Ignores learning curve</li>
+                            <li>No emotional or social factors</li>
+                            <li>Can be time-consuming to build</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-<section>
-<h2>Example: Sending an Email</h2>
-<p>Goal: Send an email</p>
-<ul>
-<li>Open email application</li>
-<li>Type message</li>
-<li>Click send</li>
-</ul>
-</section>
+            <div class="chapter">
+                <h2>Quick Summary</h2>
+                <p>
+                    GOMS is like a user's mental playbook. It breaks complex tasks into small pieces so designers can measure and improve efficiency. Best for expert users doing routine tasks.
+                </p>
+            </div>
+            
+            <a href="../index.html" class="back-link">← back to home</a>
+        </div>
 
-<section>
-<h2>Advantages</h2>
-<ul>
-<li>Provides a structured description of tasks</li>
-<li>Helps improve interface design</li>
-<li>Identifies unnecessary steps</li>
-</ul>
-</section>
-
-<section>
-<h2>Limitations</h2>
-<ul>
-<li>Assumes skilled users</li>
-<li>Does not model learning</li>
-<li>Does not include emotional or social factors</li>
-</ul>
-</section>
-<a href="../index.html">back to Home</a>
-</main>
-
-<footer>
-<p>Reference: Dix et al., Human-Computer Interaction, Chapter 12</p>
-</footer>
-
+        <div class="foot">
+            <p>source: Dix et al., Human-Computer Interaction, ch.12</p>
+        </div>
+    </div>
 </body>
 </html>
