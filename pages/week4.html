@@ -1,97 +1,524 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Week 4 - Model Comparison</title>
-<style>
-body { font-family: Arial; font-size: 16px; color: black; background-color: white; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>human computer interaction / week 4</title>
+    <style>
+        /* base style - clean and simple */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.5;
+            color: #2c2c2c;
+            background: #f5f3f0;
+            padding: 1.5rem;
+        }
+
+        /* main container */
+        .paper {
+            max-width: 980px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03), 0 2px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eae7e3;
+        }
+
+        /* header */
+        .top {
+            background: #1f1f1f;
+            color: #f0f0f0;
+            padding: 2.2rem 2rem;
+            border-bottom: 3px solid #e67e22;
+        }
+
+        .top h1 {
+            font-size: 2.1rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        /* navigation */
+        .nav {
+            background: #ffffff;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #e2dbd2;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .nav ul li a {
+            display: inline-block;
+            padding: 0.45rem 1rem;
+            text-decoration: none;
+            color: #4a4a4a;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            background: #f2eeea;
+            border: 1px solid #dbd3cb;
+            transition: all 0.1s ease;
+        }
+
+        .nav ul li a:hover {
+            background: #e5dfd9;
+            border-color: #b9ada1;
+            color: #1f1f1f;
+        }
+
+        .nav ul li a[aria-current="page"] {
+            background: #2b2b2b;
+            color: white;
+            border-color: #2b2b2b;
+        }
+
+        /* main content */
+        .content {
+            padding: 2rem 2rem 1.5rem 2rem;
+        }
+
+        /* sections */
+        .chapter {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.8rem;
+            border-bottom: 1px solid #e0d9d0;
+        }
+
+        .chapter:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0.5rem;
+        }
+
+        /* headings */
+        .chapter h2 {
+            font-size: 1.7rem;
+            font-weight: 450;
+            color: #1e1e1e;
+            margin-bottom: 1.2rem;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            border-left: 4px solid #e67e22;
+            padding-left: 1rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 550;
+            color: #2b2b2b;
+            margin: 1.2rem 0 0.6rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #3a3a3a;
+        }
+
+        /* model cards for summary */
+        .model-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+            margin: 1.8rem 0;
+        }
+
+        .model-card {
+            background: #faf7f4;
+            border: 1px solid #ece3db;
+            border-radius: 12px;
+            padding: 1.3rem;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .model-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .model-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 1rem;
+            position: relative;
+        }
+
+        /* norman icon - cycle */
+        .icon-norman::before {
+            content: "";
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #e67e22;
+            border-radius: 50%;
+            top: 5px;
+            left: 9px;
+        }
+        .icon-norman::after {
+            content: "↻";
+            position: absolute;
+            color: #e67e22;
+            font-size: 20px;
+            top: 10px;
+            left: 22px;
+        }
+
+        /* goms icon - layers */
+        .icon-goms::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e67e22;
+            top: 5px;
+            left: 14px;
+        }
+        .icon-goms::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e67e22;
+            top: 15px;
+            left: 8px;
+        }
+
+        /* klm icon - clock */
+        .icon-klm::before {
+            content: "";
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #e67e22;
+            border-radius: 50%;
+            top: 5px;
+            left: 9px;
+        }
+        .icon-klm::after {
+            content: "▶";
+            position: absolute;
+            color: #e67e22;
+            font-size: 12px;
+            top: 15px;
+            left: 22px;
+        }
+
+        .model-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e1e1e;
+            margin-bottom: 0.5rem;
+        }
+
+        .model-card p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+            color: #5a5a5a;
+        }
+
+        /* comparison table */
+        .table-container {
+            overflow-x: auto;
+            margin: 1.8rem 0;
+            border-radius: 12px;
+            border: 1px solid #ece3db;
+            background: #faf7f4;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        caption {
+            padding: 1rem;
+            font-weight: 500;
+            color: #1e1e1e;
+            background: #f0e9e2;
+            border-bottom: 1px solid #e0d7cf;
+            caption-side: top;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e0d7cf;
+        }
+
+        thead th {
+            background: #1f1f1f;
+            color: white;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        thead th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        thead th:last-child {
+            border-radius: 0 8px 0 0;
+        }
+
+        tbody th {
+            background: #f0e9e2;
+            color: #1e1e1e;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        tbody tr:last-child th,
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        td {
+            background: white;
+        }
+
+        /* model indicators in table */
+        .model-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .indicator-norman { background: #e67e22; }
+        .indicator-goms { background: #3b6e9b; }
+        .indicator-klm { background: #bf4d3e; }
+
+        /* conclusion box */
+        .conclusion-box {
+            background: #f0e9e2;
+            border-left: 4px solid #e67e22;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .conclusion-box p {
+            margin-bottom: 0;
+            font-style: italic;
+        }
+
+        /* back link */
+        .back-link {
+            display: inline-block;
+            margin: 2rem 0 0.5rem 0;
+            background: #ece5de;
+            color: #3a3a3a;
+            padding: 0.6rem 1.6rem;
+            text-decoration: none;
+            font-size: 0.95rem;
+            border: 1px solid #cdc3b8;
+            border-radius: 25px;
+            transition: all 0.1s ease;
+        }
+
+        .back-link:hover {
+            background: #e0d7ce;
+            border-color: #b1a394;
+        }
+
+        /* footer */
+        .foot {
+            background: #ece6e0;
+            padding: 1.3rem 2rem;
+            text-align: center;
+            border-top: 1px solid #dad1c7;
+            color: #4f4f4f;
+            font-size: 0.9rem;
+        }
+
+        .foot p {
+            margin-bottom: 0;
+        }
+
+        /* mobile */
+        @media (max-width: 700px) {
+            body { padding: 0.8rem; }
+            .top h1 { font-size: 1.8rem; }
+            .nav ul { flex-direction: column; }
+            .nav ul li a { text-align: center; }
+            .chapter h2 { font-size: 1.5rem; }
+            .content { padding: 1.5rem; }
+            .model-summary { grid-template-columns: 1fr; }
+            
+            th, td {
+                padding: 0.75rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="paper">
+        <div class="top">
+            <h1>Week 4 · Comparison of Interaction Models</h1>
+        </div>
 
-<header>
-<h1>Week 4: Comparison of Interaction Models</h1>
-</header>
+        <div class="nav">
+            <ul>
+                <li><a href="week1.html">week 1</a></li>
+                <li><a href="week2.html">week 2</a></li>
+                <li><a href="week3.html">week 3</a></li>
+                <li><a href="week4.html" aria-current="page">week 4</a></li>
+                <li><a href="errors.html">html errors</a></li>
+                <li><a href="references.html">references</a></li>
+            </ul>
+        </div>
 
-<nav aria-label="Primary navigation">
-<ul>
-<li><a href="week1.html">Week 1</a></li>
-<li><a href="week2.html">Week 2</a></li>
-<li><a href="week3.html">Week 3</a></li>
-<li><a href="week4.html" aria-current="page">Week 4</a></li>
-<li><a href="errors.html">HTML Errors</a></li>
-<li><a href="references.html">References</a></li>
-</ul>
-</nav>
+        <div class="content">
+            <div class="chapter">
+                <h2>Definitions Summary</h2>
+                
+                <div class="model-summary">
+                    <div class="model-card">
+                        <div class="model-icon icon-norman"></div>
+                        <h4>Norman's Action Cycle</h4>
+                        <p>User cognition and feedback · 7 stages of action · Gulfs of execution/evaluation</p>
+                    </div>
+                    
+                    <div class="model-card">
+                        <div class="model-icon icon-goms"></div>
+                        <h4>GOMS</h4>
+                        <p>Task structure · Goals, Operators, Methods, Selection Rules · Task decomposition</p>
+                    </div>
+                    
+                    <div class="model-card">
+                        <div class="model-icon icon-klm"></div>
+                        <h4>KLM</h4>
+                        <p>Execution time prediction · Keystrokes, pointing, mental prep · Expert users</p>
+                    </div>
+                </div>
+            </div>
 
-<main>
+            <div class="chapter">
+                <h2>Comparison Table</h2>
 
-<section>
-<h2>Definitions Summary</h2>
-<p>
-Norman’s Action Cycle explains user cognition and feedback. GOMS describes task structure, while KLM predicts execution time for expert users.
-</p>
-</section>
+                <div class="table-container">
+                    <table>
+                        <caption>Comparison of Norman, GOMS, and KLM Models</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Aspect</th>
+                                <th scope="col">
+                                    <span class="model-indicator indicator-norman"></span>
+                                    Norman
+                                </th>
+                                <th scope="col">
+                                    <span class="model-indicator indicator-goms"></span>
+                                    GOMS
+                                </th>
+                                <th scope="col">
+                                    <span class="model-indicator indicator-klm"></span>
+                                    KLM
+                                </th>
+                            </tr>
+                        </thead>
 
-<section>
-<h2>Comparison Table</h2>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Definition</th>
+                                <td>Model of user cognition and interaction stages</td>
+                                <td>Task analysis model using goals and methods</td>
+                                <td>Predictive model for execution time</td>
+                            </tr>
 
-<table border="1">
-<caption>Comparison of Norman, GOMS, and KLM</caption>
-<thead>
-<tr>
-<th scope="col">Aspect</th>
-<th scope="col">Norman</th>
-<th scope="col">GOMS</th>
-<th scope="col">KLM</th>
-</tr>
-</thead>
+                            <tr>
+                                <th scope="row">Focus</th>
+                                <td>User understanding & feedback</td>
+                                <td>Task structure & decomposition</td>
+                                <td>Speed & efficiency</td>
+                            </tr>
 
-<tbody>
-<tr>
-<th scope="row">Definition</th>
-<td>Model of user cognition and interaction stages</td>
-<td>Task analysis model using goals and methods</td>
-<td>Predictive model for execution time</td>
-</tr>
+                            <tr>
+                                <th scope="row">User Type</th>
+                                <td>All users (beginners to experts)</td>
+                                <td>Experienced users</td>
+                                <td>Expert users only</td>
+                            </tr>
 
-<tr>
-<th scope="row">Focus</th>
-<td>User understanding</td>
-<td>Task structure</td>
-<td>Speed and efficiency</td>
-</tr>
+                            <tr>
+                                <th scope="row">Purpose</th>
+                                <td>Improve usability & reduce gulfs</td>
+                                <td>Optimize task steps & methods</td>
+                                <td>Predict performance time</td>
+                            </tr>
 
-<tr>
-<th scope="row">User Type</th>
-<td>All users</td>
-<td>Experienced users</td>
-<td>Expert users</td>
-</tr>
+                            <tr>
+                                <th scope="row">Output</th>
+                                <td>Qualitative insights</td>
+                                <td>Task descriptions</td>
+                                <td>Time estimates (seconds)</td>
+                            </tr>
 
-<tr>
-<th scope="row">Purpose</th>
-<td>Improve usability</td>
-<td>Optimize task steps</td>
-<td>Predict performance</td>
-</tr>
-</tbody>
-</table>
+                            <tr>
+                                <th scope="row">Limitations</th>
+                                <td>Not quantitative</td>
+                                <td>Complex to build</td>
+                                <td>Only routine tasks</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <p style="font-size: 0.9rem; color: #6b6b6b; margin-top: 0.5rem;">
+                    <span class="model-indicator indicator-norman" style="margin-right: 4px;"></span> Norman · 
+                    <span class="model-indicator indicator-goms" style="margin-right: 4px;"></span> GOMS · 
+                    <span class="model-indicator indicator-klm" style="margin-right: 4px;"></span> KLM
+                </p>
+            </div>
 
-</section>
+            <div class="chapter">
+                <h2>When to Use Which Model?</h2>
+                
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.5rem 0;">
+                    <div style="background: #faf7f4; padding: 1rem; border-radius: 8px; border-top: 3px solid #e67e22;">
+                        <strong style="color: #e67e22; display: block; margin-bottom: 0.5rem;">Use Norman when...</strong>
+                        <p style="font-size: 0.9rem; margin-bottom: 0;">Analyzing user confusion, improving feedback, understanding cognitive load</p>
+                    </div>
+                    <div style="background: #faf7f4; padding: 1rem; border-radius: 8px; border-top: 3px solid #3b6e9b;">
+                        <strong style="color: #3b6e9b; display: block; margin-bottom: 0.5rem;">Use GOMS when...</strong>
+                        <p style="font-size: 0.9rem; margin-bottom: 0;">Breaking down complex tasks, comparing task procedures, training analysis</p>
+                    </div>
+                    <div style="background: #faf7f4; padding: 1rem; border-radius: 8px; border-top: 3px solid #bf4d3e;">
+                        <strong style="color: #bf4d3e; display: block; margin-bottom: 0.5rem;">Use KLM when...</strong>
+                        <p style="font-size: 0.9rem; margin-bottom: 0;">Predicting expert performance, comparing interface speed, optimizing frequent tasks</p>
+                    </div>
+                </div>
+            </div>
 
-<section>
-<h2>Conclusion</h2>
-<p>
-Each model provides a different perspective on interaction design. Together, they help designers understand user behavior and improve interface usability.
-</p>
-</section>
-<a href="../index.html">back to Home</a>
-</main>
+            <div class="chapter">
+                <h2>Conclusion</h2>
+                <div class="conclusion-box">
+                    <p>
+                        Each model provides a different perspective on interaction design. Norman helps understand <strong>how</strong> users think and where they get stuck. GOMS breaks down <strong>what</strong> users do into structured steps. KLM predicts <strong>how long</strong> expert users will take. Together, they help designers create more usable and efficient interfaces.
+                    </p>
+                </div>
+            </div>
+            
+            <a href="../index.html" class="back-link">← back to home</a>
+        </div>
 
-<footer>
-<p>Reference: Dix et al., Human-Computer Interaction, Chapters 9 & 12</p>
-</footer>
-
+        <div class="foot">
+            <p>source: Dix et al., Human-Computer Interaction, chapters 9 & 12</p>
+        </div>
+    </div>
 </body>
 </html>
